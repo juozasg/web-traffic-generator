@@ -14,84 +14,95 @@ try:
 except ImportError:
 	class ConfigClass: #minimal config incase you don't have the config.py
 		clickDepth = 5 # how deep to browse from the rootURL
-		minWait = 1 # minimum amount of time allowed between HTTP requests
+		minWait = 0 # minimum amount of time allowed between HTTP requests
 		maxWait = 3 # maximum amount of time to wait between HTTP requests
 		debug = True # set to True to enable useful console output
 
 		# use this single item list to test how a site responds to this crawler
 		# be sure to comment out the list below it.
 		#rootURLs = ["https://digg.com/"] 
-		rootURLs = ['google.com',
-			'youtube.com',
-			'facebook.com',
-			'baidu.com',
-			'wikipedia.org',
-			'reddit.com',
-			'yahoo.com',
-			'qq.com',
-			'taobao.com',
-			'google.co.in',
-			'amazon.com',
-			'tmall.com',
-			'twitter.com',
-			'sohu.com',
-			'instagram.com',
-			'vk.com',
-			'live.com',
-			'jd.com',
-			'sina.com.cn',
-			'weibo.com',
-			'yandex.ru',
-			'360.cn',
-			'google.co.jp',
-			'google.co.uk',
-			'list.tmall.com',
-			'google.ru',
-			'google.com.br',
-			'netflix.com',
-			'google.de',
-			'google.com.hk',
-			'twitch.tv',
-			'google.fr',
-			'linkedin.com',
-			'yahoo.co.jp',
-			't.co',
-			'csdn.net',
-			'microsoft.com',
-			'bing.com',
-			'office.com',
-			'ebay.com',
-			'alipay.com',
-			'google.it',
-			'google.ca',
-			'mail.ru',
-			'ok.ru',
-			'google.es',
-			'pages.tmall.com',
-			'msn.com',
-			'google.com.tr',
-			'google.com.au',
-			'whatsapp.com',
-			'spotify.com',
-			'google.pl',
-			'google.co.id',
-			'google.com.ar',
-			'google.co.th',
-			'Naver.com',
-			'sogou.com',
-			'samsung.com',
-			'accuweather.com',
-			'goo.gl',
-			'sm.cn',
-			'googleweblight.com']
-			]
+		rootURLs = [
+		    'https://google.com',
+			'http://youtube.com',
+			'https://facebook.com',
+			'http://baidu.com',
+			'https://wikipedia.org',
+			'http://reddit.com',
+			'http://yahoo.com',
+			'http://qq.com',
+			'https://taobao.com',
+			'http://google.co.in',
+			'https://amazon.com',
+			'http://tmall.com',
+			'https://twitter.com',
+			'http://sohu.com',
+			'http://instagram.com',
+			'https://vk.com',
+			'http://live.com',
+			'https://jd.com',
+			'https://sina.com.cn',
+			'http://weibo.com',
+			'https://yandex.ru',
+			'https://360.cn',
+			'http://google.co.jp',
+			'http://google.co.uk',
+			'https://list.tmall.com',
+			'http://google.ru',
+			'http://google.com.br',
+			'http://netflix.com',
+			'http://google.de',
+			'http://google.com.hk',
+			'http://twitch.tv',
+			'https://google.fr',
+			'http://linkedin.com',
+			'http://yahoo.co.jp',
+			'https://t.co',
+			'http://csdn.net',
+			'http://microsoft.com',
+			'http://bing.com',
+			'http://office.com',
+			'https://ebay.com',
+			'http://alipay.com',
+			'http://google.it',
+			'http://google.ca',
+			'https://mail.ru',
+			'http://ok.ru',
+			'http://google.es',
+			'http://pages.tmall.com',
+			'http://msn.com',
+			'https://google.com.tr',
+			'http://google.com.au',
+			'http://whatsapp.com',
+			'http://spotify.com',
+			'https://google.pl',
+			'http://google.co.id',
+			'https://google.com.ar',
+			'http://google.co.th',
+			'http://Naver.com',
+			'http://sogou.com',
+			'https://samsung.com',
+			'http://accuweather.com',
+			'https://goo.gl',
+			'http://sm.cn',
+			'https://googleweblight.com']
 
 
 		# items can be a URL "https://t.co" or simple string to check for "amazon"
 		blacklist = [
-			'facebook.com',
-			'pinterest.com'
-			]  
+		    "https://t.co",
+		    "t.umblr.com",
+		    "messenger.com",
+		    "itunes.apple.com",
+		    "l.facebook.com",
+		    "bit.ly",
+		    "mediawiki",
+		    "intent/tweet",
+		    "twitter.com/share",
+		    "signup",
+		    "login",
+		    "dialog/feed?",
+		    "zendesk",
+		    "clickserve"]  
 
 		# must use a valid user agent or sites will hate you
 		userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) ' \
@@ -111,8 +122,8 @@ def doRequest(url):
 	
 	try:
 		r = requests.get(url, headers=headers, timeout=5)
-	except:
-		time.sleep(30) # else we'll enter 100% CPU loop in a net down situation
+	except Exception as e:
+		time.sleep(1) # else we'll enter 100% CPU loop in a net down situation
 		return False
 		
 	status = r.status_code
@@ -255,6 +266,7 @@ goodRequests = 0
 badRequests = 0
 
 while True:
+	print(config.debug)
 	print("Traffic generator started...")
 	print("----------------------------")
 	print("https://github.com/ecapuano/web-traffic-generator")
