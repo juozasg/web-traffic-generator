@@ -14,8 +14,8 @@ try:
 except ImportError:
 	class ConfigClass: #minimal config incase you don't have the config.py
 		clickDepth = 5 # how deep to browse from the rootURL
-		minWait = 0 # minimum amount of time allowed between HTTP requests
-		maxWait = 3 # maximum amount of time to wait between HTTP requests
+		minWait = 1 # minimum amount of time allowed between HTTP requests
+		maxWait = 4 # maximum amount of time to wait between HTTP requests
 		debug = True # set to True to enable useful console output
 
 		# use this single item list to test how a site responds to this crawler
